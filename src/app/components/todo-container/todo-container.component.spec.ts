@@ -69,9 +69,29 @@ describe('TodoContainerComponent', () => {
     });
 
     const mainElement = container.firstChild as HTMLElement;
-    expect(mainElement.className).toMatch(/p-\d+/);
-    expect(mainElement.className).toMatch(/max-w-/);
+    expect(mainElement.className).toMatch(/p-6/);
+    expect(mainElement.className).toMatch(/max-w-2xl/);
     expect(mainElement.className).toMatch(/mx-auto/);
+
+    // Check header styling
+    const header = container.querySelector('header');
+    expect(header?.className).toMatch(/mb-8/);
+    expect(header?.className).toMatch(/text-center/);
+
+    // Check heading styling
+    const heading = container.querySelector('h1');
+    expect(heading?.className).toMatch(/text-3xl/);
+    expect(heading?.className).toMatch(/font-bold/);
+    expect(heading?.className).toMatch(/text-gray-900/);
+    expect(heading?.className).toMatch(/mb-2/);
+
+    // Check paragraph styling
+    const paragraph = container.querySelector('p');
+    expect(paragraph?.className).toMatch(/text-gray-600/);
+
+    // Check spacing classes
+    const spaceYDiv = container.querySelector('.space-y-4');
+    expect(spaceYDiv).toBeTruthy();
   });
 
   it('should integrate all child components', async () => {

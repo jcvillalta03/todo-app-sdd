@@ -58,8 +58,30 @@ describe('TodoListComponent', () => {
     });
 
     const list = container.querySelector('ul');
-    expect(list?.className).toMatch(/list/);
-    expect(list?.className).toMatch(/pl-\d+/);
+    expect(list?.className).toMatch(/list-none/);
+    expect(list?.className).toMatch(/pl-0/);
+
+    // Check empty state styling
+    const emptyState = container.querySelector('.text-center');
+    expect(emptyState).toBeTruthy();
+    expect(emptyState?.className).toMatch(/text-center/);
+    expect(emptyState?.className).toMatch(/text-gray-500/);
+    expect(emptyState?.className).toMatch(/py-8/);
+
+    const emptyStateParagraphs = container.querySelectorAll('.text-center p');
+    expect(emptyStateParagraphs[0]?.className).toMatch(/text-lg/);
+    expect(emptyStateParagraphs[1]?.className).toMatch(/text-sm/);
+  });
+
+  it('should use Tailwind CSS classes for list items', async () => {
+    const { container } = await render(TodoListComponent, {
+      componentInputs: { todos: mockTodos }
+    });
+
+    const listItems = container.querySelectorAll('li');
+    listItems.forEach(item => {
+      expect(item.className).toMatch(/mb-2/);
+    });
   });
 
   it('should re-render when todos input changes', async () => {

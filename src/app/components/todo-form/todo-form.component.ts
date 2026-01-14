@@ -11,7 +11,7 @@ export interface AddTodoEvent {
 @Component({
   selector: 'todo-form',
   template: `
-    <form (ngSubmit)="onSubmit()" class="flex flex-col gap-4 p-4 bg-white rounded-lg shadow-md">
+    <form #todoForm="ngForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-4 p-4 bg-white rounded-lg shadow-md">
       <div class="flex flex-col gap-2">
         <label for="description" class="text-sm font-medium text-gray-700">
           Description
@@ -21,10 +21,16 @@ export interface AddTodoEvent {
           type="text"
           [(ngModel)]="description"
           name="description"
+          #descriptionInput="ngModel"
           placeholder="Enter todo description"
-          class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          class="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          [class.border-gray-300]="!descriptionInput.invalid || !descriptionInput.touched"
+          [class.border-red-500]="descriptionInput.invalid && descriptionInput.touched"
           required
         />
+        <div *ngIf="descriptionInput.invalid && descriptionInput.touched" class="text-red-600 text-sm">
+          Description is required
+        </div>
       </div>
 
       <div class="flex flex-col gap-2">
@@ -36,10 +42,18 @@ export interface AddTodoEvent {
           type="number"
           [(ngModel)]="priority"
           name="priority"
+          #priorityInput="ngModel"
           min="1"
           max="5"
-          class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          class="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          [class.border-gray-300]="!priorityInput.invalid || !priorityInput.touched"
+          [class.border-red-500]="priorityInput.invalid && priorityInput.touched"
         />
+        <div *ngIf="priorityInput.invalid && priorityInput.touched" class="text-red-600 text-sm">
+          <span *ngIf="priorityInput.errors?.['min'] || priorityInput.errors?.['max']">
+            Priority must be between 1 and 5
+          </span>
+        </div>
       </div>
 
       <div class="flex flex-col gap-2">

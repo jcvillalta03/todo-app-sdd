@@ -140,6 +140,9 @@ describe('TodoFormComponent', () => {
     expect(form?.className).toMatch(/flex/);
     expect(form?.className).toMatch(/flex-col/);
     expect(form?.className).toMatch(/gap/);
+    expect(form?.className).toMatch(/bg-white/);
+    expect(form?.className).toMatch(/rounded-lg/);
+    expect(form?.className).toMatch(/shadow-md/);
 
     const inputs = container.querySelectorAll('input');
     inputs.forEach(input => {
@@ -147,13 +150,48 @@ describe('TodoFormComponent', () => {
       expect(input.className).toMatch(/rounded/);
       expect(input.className).toMatch(/px-\d+/);
       expect(input.className).toMatch(/py-\d+/);
+      expect(input.className).toMatch(/focus:outline-none/);
+      expect(input.className).toMatch(/focus:ring-2/);
+      expect(input.className).toMatch(/focus:ring-blue-500/);
     });
 
     const button = container.querySelector('button');
-    expect(button?.className).toMatch(/bg-/);
+    expect(button?.className).toMatch(/bg-blue-600/);
     expect(button?.className).toMatch(/text-white/);
     expect(button?.className).toMatch(/px-\d+/);
     expect(button?.className).toMatch(/py-\d+/);
     expect(button?.className).toMatch(/rounded/);
+    expect(button?.className).toMatch(/hover:bg-blue-700/);
+    expect(button?.className).toMatch(/focus:ring-2/);
+    expect(button?.className).toMatch(/focus:ring-blue-500/);
+  });
+
+  it('should use Tailwind CSS classes for validation error messages', async () => {
+    const { container, getByPlaceholderText } = await render(TodoFormComponent);
+
+    // Trigger validation by touching and leaving empty
+    const descriptionInput = getByPlaceholderText('Enter todo description') as HTMLInputElement;
+    fireEvent.focus(descriptionInput);
+    fireEvent.blur(descriptionInput);
+
+    // Check for error message styling
+    const errorMessage = container.querySelector('.text-red-600');
+    expect(errorMessage).toBeTruthy();
+    expect(errorMessage?.className).toMatch(/text-red-600/);
+    expect(errorMessage?.className).toMatch(/text-sm/);
+
+    // Check for invalid input border styling
+    expect(descriptionInput.className).toMatch(/border-red-500/);
+  });
+
+  it('should use Tailwind CSS classes for labels', async () => {
+    const { container } = await render(TodoFormComponent);
+
+    const labels = container.querySelectorAll('label');
+    labels.forEach(label => {
+      expect(label.className).toMatch(/text-sm/);
+      expect(label.className).toMatch(/font-medium/);
+      expect(label.className).toMatch(/text-gray-700/);
+    });
   });
 });

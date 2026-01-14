@@ -263,12 +263,39 @@ describe('TodoDataService', () => {
     });
 
     it('should handle localStorage disabled', () => {
-      // Mock localStorage disabled
+      // Mock localStorage disabled (SecurityError)
       const originalSetItem = localStorage.setItem;
-      localStorage.setItem = () => { throw new Error('localStorage disabled'); };
+      const securityError = new Error('localStorage disabled');
+      (securityError as any).name = 'SecurityError';
+      (securityError as any).code = 18;
+      localStorage.setItem = () => { throw securityError; };
 
       // Should not crash, just log warning
       expect(() => service.addTodo('Test')).not.toThrow();
+
+      // Verify data is still in memory
+      const todos = service.getTodos()();
+      expect(todos.length).toBe(1);
+      expect(todos[0].description).toBe('Test');
+
+      // Restore localStorage
+      localStorage.setItem = originalSetItem;
+    });
+
+    it('should handle localStorage quota exceeded', () => {
+      // Mock localStorage quota exceeded
+      const originalSetItem = localStorage.setItem;
+      const quotaError = new Error('QuotaExceededError');
+      (quotaError as any).name = 'QuotaExceededError';
+      (quotaError as any).code = 22;
+      localStorage.setItem = () => { throw quotaError; };
+
+      // Should not crash, just log error
+      expect(() => service.addTodo('Test quota')).not.toThrow();
+
+      // Verify data is still in memory
+      const todos = service.getTodos()();
+      expect(todos.length).toBeGreaterThan(0);
 
       // Restore localStorage
       localStorage.setItem = originalSetItem;
