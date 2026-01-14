@@ -23,6 +23,7 @@ import { TodoItemComponent } from '../todo-item/todo-item.component';
           (editStart)="onEditStart(todo.id)"
           (updateTodo)="onUpdateTodo(todo.id, $event)"
           (editCancel)="onCancelEdit()"
+          (deleteTodo)="onDeleteTodo($event)"
         ></todo-item>
       </div>
     </section>
@@ -63,6 +64,10 @@ export class TodoContainerComponent {
 
   isEditing(todoId: string): boolean {
     return this.editingId === todoId;
+  }
+
+  onDeleteTodo(todoId: string) {
+    this.todoService.removeTodo(todoId);
   }
 
   trackById(index: number, todo: any): string {

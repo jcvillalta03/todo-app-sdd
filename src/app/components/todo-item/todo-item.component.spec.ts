@@ -260,4 +260,70 @@ describe('TodoItemComponent', () => {
       });
     });
   });
+
+  describe('Delete functionality', () => {
+    it('should render delete button in view mode', async () => {
+      const { getByRole } = await render(TodoItemComponent, {
+        componentInputs: { todo: mockTodo }
+      });
+
+      expect(getByRole('button', { name: /delete/i })).toBeTruthy();
+    });
+
+    it('should not render delete button in edit mode', async () => {
+      const { queryByRole } = await render(TodoItemComponent, {
+        componentInputs: { todo: mockTodo, isEditing: true }
+      });
+
+      expect(queryByRole('button', { name: /delete/i })).toBeNull();
+    });
+
+    it('should emit deleteTodo event when delete button is clicked', async () => {
+      let deleteEmitted = false;
+      const { getByRole, fixture } = await render(TodoItemComponent, {
+        componentInputs: { todo: mockTodo }
+      });
+
+      fixture.componentInstance.deleteTodo.subscribe(() => deleteEmitted = true);
+
+      const deleteButton = getByRole('button', { name: /delete/i });
+      fireEvent.click(deleteButton);
+
+      expect(deleteEmitted).toBe(true);
+    });
+
+    it('should emit deleteTodo event with the correct todo id', async () => {
+      let emittedId: string | null = null;
+      const { getByRole, fixture } = await render(TodoItemComponent, {
+        componentInputs: { todo: mockTodo }
+      });
+
+      fixture.componentInstance.deleteTodo.subscribe((id: string) => emittedId = id);
+
+      const deleteButton = getByRole('button', { name: /delete/i });
+      fireEvent.click(deleteButton);
+
+      expect(emittedId).toBe(mockTodo.id);
+    });
+
+    it('should style delete button with destructive colors', async () => {
+      const { getByRole } = await render(TodoItemComponent, {
+        componentInputs: { todo: mockTodo }
+      });
+
+      const deleteButton = getByRole('button', { name: /delete/i });
+      expect(deleteButton.className).toMatch(/bg-red-600/);
+      expect(deleteButton.className).toMatch(/text-white/);
+      expect(deleteButton.className).toMatch(/hover:bg-red-700/);
+    });
+
+    it('should have appropriate aria-label for accessibility', async () => {
+      const { getByRole } = await render(TodoItemComponent, {
+        componentInputs: { todo: mockTodo }
+      });
+
+      const deleteButton = getByRole('button', { name: /delete/i });
+      expect(deleteButton.getAttribute('aria-label')).toBe('Delete todo');
+    });
+  });
 });

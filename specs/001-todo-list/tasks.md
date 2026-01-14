@@ -113,15 +113,15 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T030 [P] [US3] Write tests for TodoItemComponent delete functionality in `src/app/components/todo-item/todo-item.component.spec.ts` (extend existing tests)
-- [ ] T031 [US3] Write tests for TodoContainerComponent remove operations in `src/app/components/todo-container/todo-container.component.spec.ts` (extend existing tests, depends on T030)
+- [x] T030 [P] [US3] Write tests for TodoItemComponent delete functionality in `src/app/components/todo-item/todo-item.component.spec.ts` (extend existing tests)
+- [x] T031 [US3] Write tests for TodoContainerComponent remove operations in `src/app/components/todo-container/todo-container.component.spec.ts` (extend existing tests, depends on T030)
 
 ### Implementation for User Story 3
 
-- [ ] T032 [US3] Add delete button and confirmation to TodoItemComponent in `src/app/components/todo-item/todo-item.component.ts` (depends on T017, T030)
-- [ ] T033 [US3] Update TodoItemComponent template in `src/app/components/todo-item/todo-item.component.html` to include delete button with Tailwind CSS styling (depends on T032)
-- [ ] T034 [US3] Add removeTodo method handling to TodoContainerComponent in `src/app/components/todo-container/todo-container.component.ts` (depends on T021, T031)
-- [ ] T035 [US3] Update TodoContainerComponent template in `src/app/components/todo-container/todo-container.component.html` to wire up delete events (depends on T034)
+- [x] T032 [US3] Add delete button and confirmation to TodoItemComponent in `src/app/components/todo-item/todo-item.component.ts` (depends on T017, T030)
+- [x] T033 [US3] Update TodoItemComponent template in `src/app/components/todo-item/todo-item.component.html` to include delete button with Tailwind CSS styling (depends on T032)
+- [x] T034 [US3] Add removeTodo method handling to TodoContainerComponent in `src/app/components/todo-container/todo-container.component.ts` (depends on T021, T031)
+- [x] T035 [US3] Update TodoContainerComponent template in `src/app/components/todo-container/todo-container.component.html` to wire up delete events (depends on T034)
 
 **Checkpoint**: At this point, User Stories 1, 2, AND 3 should all work independently - users can add, view, update, and remove todo items
 
