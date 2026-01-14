@@ -1,15 +1,24 @@
-import { Component, Input, computed } from '@angular/core';
+import { Component, Input, Output, EventEmitter, computed, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { TodoItem } from '../../models/todo-item.model';
+
+export interface UpdateTodoEvent {
+  description: string;
+  priority: number;
+  dueDate: string | null;
+}
 
 @Component({
   selector: 'todo-item',
+  imports: [CommonModule, FormsModule],
   template: `
     <div
       class="border rounded-lg p-4 mb-2 shadow-sm"
       [class]="itemClasses()"
     >
-      <div class="flex justify-between items-start">
+      <!-- View Mode -->
+      <div *ngIf="!isEditing" class="flex justify-between items-start">
         <div class="flex-1">
           <h3 class="text-lg font-medium text-gray-900 mb-2">{{ todo.description }}</h3>
 
@@ -35,14 +44,97 @@ import { TodoItem } from '../../models/todo-item.model';
             </span>
           </div>
         </div>
+
+        <button
+          (click)="onEditStart()"
+          class="ml-4 px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          aria-label="Edit todo"
+        >
+          Edit
+        </button>
       </div>
+
+      <!-- Edit Mode -->
+      <form *ngIf="isEditing" (ngSubmit)="onSave()" class="flex flex-col gap-4">
+        <div class="flex flex-col gap-2">
+          <label for="edit-description" class="text-sm font-medium text-gray-700">
+            Description
+          </label>
+          <input
+            id="edit-description"
+            type="text"
+            [(ngModel)]="editDescription"
+            name="editDescription"
+            placeholder="Enter todo description"
+            class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            required
+          />
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="edit-priority" class="text-sm font-medium text-gray-700">
+            Priority (1-5)
+          </label>
+          <select
+            id="edit-priority"
+            [(ngModel)]="editPriority"
+            name="editPriority"
+            class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          >
+            <option [value]="1">1 - Lowest</option>
+            <option [value]="2">2</option>
+            <option [value]="3">3 - Normal</option>
+            <option [value]="4">4</option>
+            <option [value]="5">5 - Highest</option>
+          </select>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="edit-dueDate" class="text-sm font-medium text-gray-700">
+            Due Date (optional)
+          </label>
+          <input
+            id="edit-dueDate"
+            type="date"
+            [(ngModel)]="editDueDate"
+            name="editDueDate"
+            class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          />
+        </div>
+
+        <div class="flex gap-2 justify-end">
+          <button
+            type="button"
+            (click)="onCancel()"
+            class="px-4 py-2 text-sm bg-gray-600 text-white rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="px-4 py-2 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            [disabled]="!editDescription?.trim()"
+          >
+            Save
+          </button>
+        </div>
+      </form>
     </div>
   `,
-  imports: [CommonModule],
   standalone: true
 })
-export class TodoItemComponent {
+export class TodoItemComponent implements OnChanges {
   @Input({ required: true }) todo!: TodoItem;
+  @Input() isEditing = false;
+
+  @Output() editStart = new EventEmitter<void>();
+  @Output() updateTodo = new EventEmitter<UpdateTodoEvent>();
+  @Output() editCancel = new EventEmitter<void>();
+
+  // Form model for editing
+  editDescription = '';
+  editPriority = 3;
+  editDueDate = '';
 
   // Computed property for dynamic classes
   itemClasses = computed(() => {
@@ -61,6 +153,33 @@ export class TodoItemComponent {
     };
     return priorityColors[this.todo.priority as keyof typeof priorityColors] || priorityColors[3];
   });
+
+  ngOnChanges(changes: SimpleChanges) {
+    // Initialize edit form values when entering edit mode
+    if (changes['isEditing'] && this.isEditing) {
+      this.editDescription = this.todo.description;
+      this.editPriority = this.todo.priority;
+      this.editDueDate = this.todo.dueDate || '';
+    }
+  }
+
+  onEditStart() {
+    this.editStart.emit();
+  }
+
+  onSave() {
+    if (this.editDescription.trim()) {
+      this.updateTodo.emit({
+        description: this.editDescription.trim(),
+        priority: this.editPriority,
+        dueDate: this.editDueDate || null
+      });
+    }
+  }
+
+  onCancel() {
+    this.editCancel.emit();
+  }
 
   isPastDue(): boolean {
     if (!this.todo.dueDate) {

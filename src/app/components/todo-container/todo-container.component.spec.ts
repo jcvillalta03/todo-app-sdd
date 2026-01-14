@@ -3,7 +3,7 @@ import { TodoContainerComponent } from './todo-container.component';
 import { TodoDataService } from '../../services/todo-data.service';
 
 describe('TodoContainerComponent', () => {
-  it('should render todo form and todo list', async () => {
+  it('should render todo form and todo items', async () => {
     const { getByPlaceholderText, container } = await render(TodoContainerComponent, {
       providers: [TodoDataService]
     });
@@ -11,9 +11,9 @@ describe('TodoContainerComponent', () => {
     // Check form is present
     expect(getByPlaceholderText('Enter todo description')).toBeTruthy();
 
-    // Check list is present
-    const list = container.querySelector('todo-list');
-    expect(list).toBeTruthy();
+    // Check that todo items container is present
+    const itemsContainer = container.querySelector('.space-y-4');
+    expect(itemsContainer).toBeTruthy();
   });
 
   it('should add todo when form is submitted', async () => {
@@ -77,6 +77,95 @@ describe('TodoContainerComponent', () => {
 
     // Check all expected child components are present
     expect(container.querySelector('todo-form')).toBeTruthy();
-    expect(container.querySelector('todo-list')).toBeTruthy();
+    // Now renders todo-item components directly instead of todo-list
+    const todoItems = container.querySelectorAll('todo-item');
+    expect(todoItems.length).toBe(0); // Initially no todos
+  });
+
+  describe('Update functionality', () => {
+    it('should have edit state management properties', async () => {
+      const { fixture } = await render(TodoContainerComponent, {
+        providers: [TodoDataService]
+      });
+
+      // Check that the component has the expected properties
+      expect(fixture.componentInstance.editingId).toBeNull();
+      expect(typeof fixture.componentInstance.onEditStart).toBe('function');
+      expect(typeof fixture.componentInstance.onUpdateTodo).toBe('function');
+      expect(typeof fixture.componentInstance.onCancelEdit).toBe('function');
+      expect(typeof fixture.componentInstance.isEditing).toBe('function');
+    });
+
+    it('should update todo when onUpdateTodo is called', async () => {
+      const { fixture } = await render(TodoContainerComponent, {
+        providers: [TodoDataService]
+      });
+
+      const service = fixture.debugElement.injector.get(TodoDataService);
+      service.addTodo('Original todo');
+      const todoId = service.getTodos()()[0].id;
+
+      // Update todo
+      fixture.componentInstance.onUpdateTodo(todoId, {
+        description: 'Updated todo',
+        priority: 5,
+        dueDate: '2026-01-25'
+      });
+
+      const updatedTodo = service.getTodos()().find(t => t.id === todoId);
+      expect(updatedTodo?.description).toBe('Updated todo');
+      expect(updatedTodo?.priority).toBe(5);
+      expect(updatedTodo?.dueDate).toBe('2026-01-25');
+    });
+
+    it('should start edit mode when onEditStart is called', async () => {
+      const { fixture } = await render(TodoContainerComponent, {
+        providers: [TodoDataService]
+      });
+
+      expect(fixture.componentInstance.editingId).toBeNull();
+
+      fixture.componentInstance.onEditStart('test-id');
+      expect(fixture.componentInstance.editingId).toBe('test-id');
+    });
+
+    it('should exit edit mode when onCancelEdit is called', async () => {
+      const { fixture } = await render(TodoContainerComponent, {
+        providers: [TodoDataService]
+      });
+
+      fixture.componentInstance.editingId = 'test-id';
+      expect(fixture.componentInstance.editingId).toBe('test-id');
+
+      fixture.componentInstance.onCancelEdit();
+      expect(fixture.componentInstance.editingId).toBeNull();
+    });
+
+    it('should correctly identify editing state', async () => {
+      const { fixture } = await render(TodoContainerComponent, {
+        providers: [TodoDataService]
+      });
+
+      expect(fixture.componentInstance.isEditing('test-id')).toBe(false);
+
+      fixture.componentInstance.editingId = 'test-id';
+      expect(fixture.componentInstance.isEditing('test-id')).toBe(true);
+      expect(fixture.componentInstance.isEditing('other-id')).toBe(false);
+    });
+
+    it('should handle update errors gracefully', async () => {
+      const { fixture } = await render(TodoContainerComponent, {
+        providers: [TodoDataService]
+      });
+
+      // Try to update non-existent todo - should handle gracefully without throwing
+      expect(() => {
+        fixture.componentInstance.onUpdateTodo('non-existent-id', {
+          description: 'Updated todo',
+          priority: 3,
+          dueDate: null
+        });
+      }).not.toThrow();
+    });
   });
 });
