@@ -1,0 +1,29 @@
+# todo-app Development Guidelines
+
+Auto-generated from all feature plans. Last updated: 2026-01-14
+
+## Active Technologies
+
+- TypeScript 5.9.2 with strict type checking + Angular 21.0.0, Tailwind CSS 4.1.12, RxJS 7.8.0 (001-todo-list)
+
+## Project Structure
+
+```text
+src/
+tests/
+```
+
+## Commands
+
+npm test && npm run lint && npm run test:ci
+
+## Code Style
+
+TypeScript 5.9.2 with strict type checking: Follow standard conventions
+
+## Recent Changes
+
+- 001-todo-list: Added TypeScript 5.9.2 with strict type checking + Angular 21.0.0, Tailwind CSS 4.1.12, RxJS 7.8.0
+
+<!-- MANUAL ADDITIONS START -->
+<!-- MANUAL ADDITIONS END -->
