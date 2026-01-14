@@ -1,8 +1,8 @@
 <!--
 Sync Impact Report:
-Version: 0.0.0 → 1.0.0 (Initial constitution establishment)
-Modified Principles: N/A (new file)
-Added Sections: Core Principles (5 principles), Technology Stack, Development Workflow, Governance
+Version: 1.0.0 → 1.1.0 (Added test coverage principle)
+Modified Principles: N/A
+Added Sections: VI. Test Coverage Requirements
 Removed Sections: N/A
 Templates requiring updates:
   ✅ plan-template.md - Constitution Check section already exists and will reference this constitution
@@ -45,6 +45,12 @@ Services MUST be designed to support local storage initially but structured such
 
 **Rationale**: This approach allows rapid development with local storage while ensuring smooth transition to API-backed services. The interface contract remains unchanged, protecting component code from data source changes.
 
+### VI. Test Coverage Requirements (NON-NEGOTIABLE)
+
+All code MUST maintain at least 95% line coverage from automated tests. Coverage reports MUST be generated and verified in CI/CD pipelines. No code changes can be merged if coverage falls below this threshold. Coverage exclusions MUST be explicitly justified and documented.
+
+**Rationale**: High test coverage ensures code reliability, prevents regressions, and maintains code quality standards. The 95% threshold balances thorough testing with practical development constraints while enforcing comprehensive test discipline.
+
 ## Technology Stack
 
 **Framework**: Angular 21 (standalone components, signals, modern control flow)  
@@ -57,9 +63,11 @@ Services MUST be designed to support local storage initially but structured such
 
 **Testing Requirements**: All services and components MUST have unit tests written before implementation. Tests MUST specify all inputs, outputs, and expected behavior. Presentational components require rendering and event emission tests. Container components require integration and side effect tests.
 
-**Code Review**: All PRs MUST verify constitution compliance. Complexity MUST be justified. Tests MUST pass before merge.
+**Coverage Requirements**: All code MUST maintain minimum 95% line coverage. Coverage reports MUST be generated during testing and verified before merge. Coverage gaps MUST be addressed through additional tests or explicit exclusions with justification.
 
-**Quality Gates**: No code can be merged without passing tests. TDD workflow MUST be followed (tests written and failing before implementation begins).
+**Code Review**: All PRs MUST verify constitution compliance. Complexity MUST be justified. Tests MUST pass and coverage requirements met before merge.
+
+**Quality Gates**: No code can be merged without passing tests and meeting coverage thresholds. TDD workflow MUST be followed (tests written and failing before implementation begins).
 
 ## Governance
 
@@ -75,4 +83,4 @@ This constitution supersedes all other development practices and guidelines. Ame
 
 All development work MUST comply with these principles. Violations require explicit justification and approval. Use `.specify/memory/constitution.md` as the authoritative reference for all development decisions.
 
-**Version**: 1.0.0 | **Ratified**: 2026-01-14 | **Last Amended**: 2026-01-14
+**Version**: 1.1.0 | **Ratified**: 2026-01-14 | **Last Amended**: 2026-01-14
