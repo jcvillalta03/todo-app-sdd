@@ -1,5 +1,35 @@
 # Project Instructions
 
+## Running Project
+
+To run the app and its tests, use the following commands:
+
+### 1. Install dependencies
+```sh
+npm install
+```
+
+### 2. Run the development server
+```sh
+npm start
+```
+This will serve the app locally, typically at http://localhost:4200.
+
+### 3. Run unit tests
+```sh
+npm test
+```
+This runs all unit tests using [Vitest](https://vitest.dev/).
+
+---
+
+**Notes:**
+- The app uses Angular 21 and Tailwind CSS by default.
+- For best results, ensure your Node.js and npm version are compatible with the versions in `package.json`.
+- You can find and modify the main UI in `src/app/app.html` and `src/app/app.ts`.
+
+
+
 ## Component Structure, State Management, and Testing Guidelines
 
 - **Decouple Data with Services:**  
