@@ -3,6 +3,10 @@ import { TodoContainerComponent } from './todo-container.component';
 import { TodoDataService } from '../../services/todo-data.service';
 
 describe('TodoContainerComponent', () => {
+  beforeEach(() => {
+    // Clear localStorage before each test to ensure clean state
+    localStorage.clear();
+  });
   it('should render todo form and todo items', async () => {
     const { getByPlaceholderText, container } = await render(TodoContainerComponent, {
       providers: [TodoDataService]
@@ -167,5 +171,70 @@ describe('TodoContainerComponent', () => {
         });
       }).not.toThrow();
     });
+  });
+
+  describe('Delete functionality', () => {
+    it('should remove todo when onDeleteTodo is called', async () => {
+      const { fixture } = await render(TodoContainerComponent, {
+        providers: [TodoDataService]
+      });
+
+      const service = fixture.debugElement.injector.get(TodoDataService);
+      service.addTodo('Test todo');
+      const todoId = service.getTodos()()[0].id;
+
+      // Verify todo exists
+      expect(service.getTodos()()).toHaveLength(1);
+
+      // Delete the todo
+      fixture.componentInstance.onDeleteTodo(todoId);
+
+      // Verify todo is removed
+      expect(service.getTodos()()).toHaveLength(0);
+    });
+
+    it('should handle deleting non-existent todo gracefully', async () => {
+      const { fixture } = await render(TodoContainerComponent, {
+        providers: [TodoDataService]
+      });
+
+      const service = fixture.debugElement.injector.get(TodoDataService);
+
+      // Try to delete non-existent todo
+      expect(() => {
+        fixture.componentInstance.onDeleteTodo('non-existent-id');
+      }).toThrow();
+
+      // Service should still be in valid state
+      expect(service.getTodos()()).toHaveLength(0);
+    });
+
+    it('should update the sorted todos list after deletion', async () => {
+      const { fixture } = await render(TodoContainerComponent, {
+        providers: [TodoDataService]
+      });
+
+      const service = fixture.debugElement.injector.get(TodoDataService);
+      service.addTodo('First todo', 3);
+      service.addTodo('Second todo', 5);
+      service.addTodo('Third todo', 1);
+
+      // Verify all todos exist and are sorted by priority
+      let todos = service.getSortedTodos()();
+      expect(todos).toHaveLength(3);
+      expect(todos[0].priority).toBe(5); // Highest priority first
+      expect(todos[1].priority).toBe(3);
+      expect(todos[2].priority).toBe(1); // Lowest priority last
+
+      // Delete the middle priority todo
+      fixture.componentInstance.onDeleteTodo(todos[1].id);
+
+      // Verify remaining todos are still sorted
+      todos = service.getSortedTodos()();
+      expect(todos).toHaveLength(2);
+      expect(todos[0].priority).toBe(5);
+      expect(todos[1].priority).toBe(1);
+    });
+
   });
 });
