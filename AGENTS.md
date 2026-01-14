@@ -21,6 +21,12 @@ npm test
 ```
 This runs all unit tests using [Vitest](https://vitest.dev/).
 
+### 3. Run unit tests w/ coverage
+```sh
+npm run test:ci
+```
+This runs all unit tests using [Vitest](https://vitest.dev/), and checks coverage.
+
 ---
 
 **Notes:**
@@ -40,6 +46,7 @@ This runs all unit tests using [Vitest](https://vitest.dev/).
   - Start by writing unit tests (using [Vitest](https://vitest.dev/), as included in your dev dependencies) for each service and component.
   - Tests should specify all component/service inputs, outputs, and expected behavior.
   - There should be tests for presentational components (inputs, output events, rendering), container components (integration, side effects), and services (data updates, selectors).
+  - **Coverage Enforcement**: All code MUST maintain at least 95% line coverage. Coverage reports are automatically generated during testing. No code can be merged if coverage falls below this threshold.
 
 - **Use the Container/Presentational Pattern:**  
   1. Write tests for presentational components verifying rendering and event emission.
