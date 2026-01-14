@@ -89,15 +89,15 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T024 [P] [US2] Write tests for TodoItemComponent edit functionality in `src/app/components/todo-item/todo-item.component.spec.ts` (extend existing tests)
-- [ ] T025 [US2] Write tests for TodoContainerComponent update operations in `src/app/components/todo-container/todo-container.component.spec.ts` (extend existing tests, depends on T024)
+- [x] T024 [P] [US2] Write tests for TodoItemComponent edit functionality in `src/app/components/todo-item/todo-item.component.spec.ts` (extend existing tests)
+- [x] T025 [US2] Write tests for TodoContainerComponent update operations in `src/app/components/todo-container/todo-container.component.spec.ts` (extend existing tests, depends on T024)
 
 ### Implementation for User Story 2
 
-- [ ] T026 [US2] Add edit mode to TodoItemComponent in `src/app/components/todo-item/todo-item.component.ts` (depends on T017, T024)
-- [ ] T027 [US2] Update TodoItemComponent template in `src/app/components/todo-item/todo-item.component.html` to support inline editing with Tailwind CSS styling (depends on T026)
-- [ ] T028 [US2] Add updateTodo method handling to TodoContainerComponent in `src/app/components/todo-container/todo-container.component.ts` (depends on T021, T025)
-- [ ] T029 [US2] Update TodoContainerComponent template in `src/app/components/todo-container/todo-container.component.html` to wire up edit events (depends on T028)
+- [x] T026 [US2] Add edit mode to TodoItemComponent in `src/app/components/todo-item/todo-item.component.ts` (depends on T017, T024)
+- [x] T027 [US2] Update TodoItemComponent template in `src/app/components/todo-item/todo-item.component.html` to support inline editing with Tailwind CSS styling (depends on T026)
+- [x] T028 [US2] Add updateTodo method handling to TodoContainerComponent in `src/app/components/todo-container/todo-container.component.ts` (depends on T021, T025)
+- [x] T029 [US2] Update TodoContainerComponent template in `src/app/components/todo-container/todo-container.component.html` to wire up edit events (depends on T028)
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently - users can add, view, and update todo items
 
