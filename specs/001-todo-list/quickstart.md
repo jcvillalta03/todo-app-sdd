@@ -46,9 +46,14 @@ The Todo List feature allows users to track weekly tasks with priority levels (1
 3. Refactor
 4. Repeat
 
-### Running Tests
+### Running Tests (w/o coverage)
 ```bash
 npm test
+```
+
+### Running Tests (w/ coverage)
+```bash
+npm run test:ci
 ```
 
 ### Running Development Server

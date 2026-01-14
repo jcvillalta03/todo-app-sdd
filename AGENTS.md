@@ -21,6 +21,12 @@ npm test
 ```
 This runs all unit tests using [Vitest](https://vitest.dev/).
 
+### 3. Run unit tests w/ coverage
+```sh
+npm run test:ci
+```
+This runs all unit tests using [Vitest](https://vitest.dev/), and checks coverage.
+
 ---
 
 **Notes:**
