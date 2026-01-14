@@ -176,7 +176,9 @@ export class TodoContainerComponent {
 
 ## Summary of Best Practices
 
-- Follow **TDD**: Write tests before logic for every service and component.
+- Follow **TDD**: Write tests before logic for every service and component. 
+  - After writing code, run the tests, and identify tests that are failing
+  - Then work through each failing test to identify the root cause and then fix test/logic.
 - **Decouple state**: Put all data management in services (for future API expansion).
 - **Container/Presentational**: Clearly split data logic from UI rendering; test both roles.
 - **Tailwind**: Use Tailwind for styling; verify critical classes in tests.
