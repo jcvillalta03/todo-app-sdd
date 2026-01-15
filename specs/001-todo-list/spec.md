@@ -2,7 +2,7 @@
 
 **Feature Branch**: `001-todo-list`  
 **Created**: 2026-01-14  
-**Status**: Draft  
+**Status**: Complete  
 **Input**: User description: "I want to implement a todo list in my application. Users will use this list to keep track of items they need to accomplish for the week. Users should be able to add, remove, update items. Items should contain order(priority), and due date (not time), flagging when an item is past due."
 
 ## Clarifications
@@ -81,14 +81,23 @@ A user wants to easily identify todo items that are past their due date so they 
 
 ---
 
-### Edge Cases
+### Edge Case Handling
 
-- What happens when a user adds a todo item with a due date that is already in the past?
-- How does the system handle multiple items with the same priority (1-5) - what determines their order? → Items with the same priority are sorted by creation time (oldest first)
-- What happens when a user updates a todo item's due date to remove it (set to null/empty)?
-- How does the system handle very long todo item descriptions?
-- What happens when a user attempts to update or remove a todo item that no longer exists?
-- How does the system handle timezone considerations for due dates (since only date, not time, is stored)?
+The following edge cases are explicitly handled:
+
+1. **Past-due items at creation**: When a user adds a todo item with a due date that is already in the past (or today), the system MUST immediately flag it as past-due using the same visual indicators as items that become past-due later (FR-009, FR-010).
+
+2. **Multiple items with same priority**: Items with the same priority (1-5) are sorted by creation time (oldest first) as specified in FR-012.
+
+3. **Removing due date**: When a user updates a todo item's due date to remove it (sets to null or empty), the system MUST remove the past-due flag if present and clear the due date display. The item continues to be displayed in the list without a due date.
+
+4. **Very long descriptions**: The system MUST display todo item descriptions of any length. For descriptions that exceed the display area, the UI MAY truncate with ellipsis, but the full description MUST be accessible (e.g., via tooltip, expandable view, or full-text display in edit mode). The system MUST NOT reject or prevent creation of todos with long descriptions.
+
+5. **Non-existent items**: When a user attempts to update or remove a todo item that no longer exists (e.g., deleted in another session), the system MUST:
+   - Service layer: Throw an error indicating the item was not found
+   - UI layer: Display an appropriate error message to the user and gracefully handle the error state (e.g., refresh the list, clear edit mode)
+
+6. **Timezone considerations**: Due dates are stored and compared using ISO date strings (YYYY-MM-DD format) without time components. Date comparisons use the user's local date (Date.toISOString().split('T')[0]). The system does NOT convert timezones - a due date of "2026-01-20" means January 20, 2026 in the user's local timezone regardless of where the user is located.
 
 ## Requirements *(mandatory)*
 
@@ -119,6 +128,12 @@ A user wants to easily identify todo items that are past their due date so they 
 - **SC-002**: Users can view their complete todo list with all items and attributes displayed within 1 second of page load
 - **SC-003**: Users can update any attribute of an existing todo item in under 20 seconds
 - **SC-004**: Users can remove a todo item from the list in under 10 seconds
-- **SC-005**: Past-due items are visually distinguishable from current items with 100% accuracy (all past-due items flagged, no false positives)
-- **SC-006**: 95% of users can successfully complete the core workflow (add → view → update → remove) on their first attempt without assistance
+- **SC-005**: Past-due items are visually distinguishable from current items with 100% accuracy. Accuracy is defined as:
+  - **True Positives**: All items with `dueDate` where `dueDate <= today` (using ISO date string YYYY-MM-DD comparison) MUST be visually flagged as past-due
+  - **True Negatives**: All items with `dueDate` where `dueDate > today` MUST NOT be visually flagged as past-due
+  - **False Positives**: Zero items with future due dates incorrectly flagged as past-due
+  - **False Negatives**: Zero items with past/current due dates missing the past-due flag
+  - **Measurement**: Verified through automated unit tests that check visual classes/appearance for all combinations of due date values (past, today, future, null)
+  - **Edge Case**: Items with `dueDate === today` are considered past-due per FR-009
+- **SC-006**: 95% of users can successfully complete the core workflow (add → view → update → remove) on their first attempt without assistance. **Note**: This is a future usability validation criterion for user acceptance testing, not an implementation requirement. The system MUST be designed to support this goal through clear UI patterns, error messages, and workflow guidance, but formal validation requires user testing that will be conducted post-implementation.
 - **SC-007**: System maintains data integrity - no todo items are lost or corrupted during normal operations (add, update, remove)
