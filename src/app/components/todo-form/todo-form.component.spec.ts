@@ -194,4 +194,20 @@ describe('TodoFormComponent', () => {
       expect(label.className).toMatch(/text-gray-700/);
     });
   });
+
+  it('should show priority validation error message when priority is out of range', async () => {
+    const { container, getByLabelText, fixture } = await render(TodoFormComponent);
+
+    const priorityInput = getByLabelText(/Priority/i) as HTMLInputElement;
+    
+    // Set invalid priority (out of range)
+    fireEvent.input(priorityInput, { target: { value: '6' } });
+    fireEvent.blur(priorityInput);
+    
+    await fixture.whenStable();
+
+    // Check for priority error message
+    const errorMessage = container.querySelector('.text-red-600');
+    expect(errorMessage?.textContent).toContain('Priority must be between 1 and 5');
+  });
 });

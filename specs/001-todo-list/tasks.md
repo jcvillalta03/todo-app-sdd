@@ -137,15 +137,15 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T036 [P] [US4] Write tests for getPastDueTodos computed signal in `src/app/services/todo-data.service.spec.ts` (extend existing tests)
-- [ ] T037 [P] [US4] Write tests for past-due visual indication in `src/app/components/todo-item/todo-item.component.spec.ts` (extend existing tests)
+- [x] T036 [P] [US4] Write tests for getPastDueTodos computed signal in `src/app/services/todo-data.service.spec.ts` (extend existing tests)
+- [x] T037 [P] [US4] Write tests for past-due visual indication in `src/app/components/todo-item/todo-item.component.spec.ts` (extend existing tests)
 
 ### Implementation for User Story 4
 
-- [ ] T038 [US4] Implement getPastDueTodos computed signal in TodoDataService in `src/app/services/todo-data.service.ts` (depends on T006, T036)
-- [ ] T039 [US4] Add isPastDue computed property to TodoItemComponent in `src/app/components/todo-item/todo-item.component.ts` (depends on T017, T037)
-- [ ] T040 [US4] Update TodoItemComponent template in `src/app/components/todo-item/todo-item.component.html` to apply Tailwind CSS classes for past-due visual indication (e.g., text-red-600, border-red-600) (depends on T039)
-- [ ] T041 [US4] Verify past-due styling appears in TodoItemComponent tests (depends on T040)
+- [x] T038 [US4] Implement getPastDueTodos computed signal in TodoDataService in `src/app/services/todo-data.service.ts` (depends on T006, T036)
+- [x] T039 [US4] Add isPastDue computed property to TodoItemComponent in `src/app/components/todo-item/todo-item.component.ts` (depends on T017, T037)
+- [x] T040 [US4] Update TodoItemComponent template in `src/app/components/todo-item/todo-item.component.html` to apply Tailwind CSS classes for past-due visual indication (e.g., text-red-600, border-red-600) (depends on T039)
+- [x] T041 [US4] Verify past-due styling appears in TodoItemComponent tests (depends on T040)
 
 **Checkpoint**: All user stories should now be independently functional - users can add, view, update, remove, and see past-due indicators
 
@@ -155,15 +155,15 @@
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T042 [P] Add error handling for localStorage quota exceeded in `src/app/services/todo-data.service.ts`
-- [ ] T043 [P] Add error handling for localStorage disabled in `src/app/services/todo-data.service.ts`
-- [ ] T044 [P] Add validation error messages to TodoFormComponent in `src/app/components/todo-form/todo-form.component.html`
-- [ ] T045 [P] Verify all Tailwind CSS classes are present in component tests
-- [ ] T046 Add sorting by priority (desc) then creation time (asc) using getSortedTodos in TodoContainerComponent in `src/app/components/todo-container/todo-container.component.ts`
-- [ ] T047 Update TodoContainerComponent to use getSortedTodos instead of getTodos in `src/app/components/todo-container/todo-container.component.ts`
-- [ ] T048 Run quickstart.md validation and verify all examples work
-- [ ] T049 Code cleanup and refactoring across all components
-- [ ] T050 Performance optimization - ensure page load <1s (SC-002)
+- [x] T042 [P] Add error handling for localStorage quota exceeded in `src/app/services/todo-data.service.ts`
+- [x] T043 [P] Add error handling for localStorage disabled in `src/app/services/todo-data.service.ts`
+- [x] T044 [P] Add validation error messages to TodoFormComponent in `src/app/components/todo-form/todo-form.component.html`
+- [x] T045 [P] Verify all Tailwind CSS classes are present in component tests
+- [x] T046 Add sorting by priority (desc) then creation time (asc) using getSortedTodos in TodoContainerComponent in `src/app/components/todo-container/todo-container.component.ts`
+- [x] T047 Update TodoContainerComponent to use getSortedTodos instead of getTodos in `src/app/components/todo-container/todo-container.component.ts`
+- [x] T048 Run quickstart.md validation and verify all examples work
+- [x] T049 Code cleanup and refactoring across all components
+- [x] T050 Performance optimization - ensure page load <1s (SC-002)
 
 ---
 
