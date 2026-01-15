@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -28,9 +28,11 @@ export interface AddTodoEvent {
           [class.border-red-500]="descriptionInput.invalid && descriptionInput.touched"
           required
         />
-        <div *ngIf="descriptionInput.invalid && descriptionInput.touched" class="text-red-600 text-sm">
-          Description is required
-        </div>
+        @if (descriptionInput.invalid && descriptionInput.touched) {
+          <div class="text-red-600 text-sm">
+            Description is required
+          </div>
+        }
       </div>
 
       <div class="flex flex-col gap-2">
@@ -49,11 +51,13 @@ export interface AddTodoEvent {
           [class.border-gray-300]="!priorityInput.invalid || !priorityInput.touched"
           [class.border-red-500]="priorityInput.invalid && priorityInput.touched"
         />
-        <div *ngIf="priorityInput.invalid && priorityInput.touched" class="text-red-600 text-sm">
-          <span *ngIf="priorityInput.errors?.['min'] || priorityInput.errors?.['max']">
-            Priority must be between 1 and 5
-          </span>
-        </div>
+        @if (priorityInput.invalid && priorityInput.touched) {
+          <div class="text-red-600 text-sm">
+            @if (priorityInput.errors?.['min'] || priorityInput.errors?.['max']) {
+              <span>Priority must be between 1 and 5</span>
+            }
+          </div>
+        }
       </div>
 
       <div class="flex flex-col gap-2">
@@ -79,11 +83,10 @@ export interface AddTodoEvent {
       </button>
     </form>
   `,
-  imports: [FormsModule, CommonModule],
-  standalone: true
+  imports: [FormsModule, CommonModule]
 })
 export class TodoFormComponent {
-  @Output() addTodo = new EventEmitter<AddTodoEvent>();
+  addTodo = output<AddTodoEvent>();
 
   description = '';
   priority = 3;
