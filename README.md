@@ -2,6 +2,10 @@
 
 A modern todo list application built with Angular 21 that allows users to manage weekly tasks with priority levels, due dates, and visual past-due indicators.
 
+**NOTE**
+
+This app was built with Spec-Driven development. See [Spec-Driven Development Guide](./docs/sdd/README.md) for all of those details.
+
 ## Features
 
 - ✅ **Add Todo Items**: Create tasks with description, priority (1-5), and optional due date
