@@ -62,6 +62,21 @@ describe('TodoItemComponent', () => {
     expect(getByText(/Created:/)).toBeTruthy();
   });
 
+  it('should handle invalid createdAt date format gracefully', async () => {
+    const invalidDateTodo: TodoItem = {
+      ...mockTodo,
+      createdAt: 'invalid-date-format'
+    };
+
+    const { container } = await render(TodoItemComponent, {
+      componentInputs: { todo: invalidDateTodo }
+    });
+
+    // Should still render without crashing
+    expect(container.textContent).toBeTruthy();
+    expect(container.textContent).toContain('Test todo item');
+  });
+
   it('should apply normal styling when not past due', async () => {
     const { container } = await render(TodoItemComponent, {
       componentInputs: { todo: mockTodo }

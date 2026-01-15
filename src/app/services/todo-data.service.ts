@@ -159,9 +159,21 @@ export class TodoDataService {
   private saveTodosToStorage(): void {
     try {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.todos()));
-    } catch (error) {
-      console.warn('Failed to save todos to localStorage:', error);
+    } catch (error: any) {
+      // Check if error is due to quota exceeded
+      if (error?.name === 'QuotaExceededError' || error?.code === 22) {
+        console.error('localStorage quota exceeded: Unable to save todos. Please free up browser storage space.');
+        // Data remains in memory, but won't persist
+        // Could implement cleanup of old items here if needed
+      } else if (error?.name === 'SecurityError' || error?.code === 18) {
+        // localStorage disabled (e.g., in private browsing mode)
+        console.warn('localStorage is disabled. Todos will only be stored in memory for this session.');
+      } else {
+        // Other localStorage errors
+        console.warn('Failed to save todos to localStorage:', error);
+      }
       // Continue execution - localStorage failure shouldn't break the app
+      // Data remains in memory signals, just won't persist
     }
   }
 }

@@ -16,20 +16,20 @@ import { TodoItemComponent } from '../todo-item/todo-item.component';
       <todo-form (addTodo)="onAddTodo($event)" class="mb-8"></todo-form>
 
       <div class="space-y-4">
-        <todo-item
-          *ngFor="let todo of todos(); trackBy: trackById"
-          [todo]="todo"
-          [isEditing]="isEditing(todo.id)"
-          (editStart)="onEditStart(todo.id)"
-          (updateTodo)="onUpdateTodo(todo.id, $event)"
-          (editCancel)="onCancelEdit()"
-          (deleteTodo)="onDeleteTodo($event)"
-        ></todo-item>
+        @for (todo of todos(); track trackById($index, todo)) {
+          <todo-item
+            [todo]="todo"
+            [isEditing]="isEditing(todo.id)"
+            (editStart)="onEditStart(todo.id)"
+            (updateTodo)="onUpdateTodo(todo.id, $event)"
+            (editCancel)="onCancelEdit()"
+            (deleteTodo)="onDeleteTodo($event)"
+          ></todo-item>
+        }
       </div>
     </section>
   `,
-  imports: [CommonModule, TodoFormComponent, TodoItemComponent],
-  standalone: true
+  imports: [CommonModule, TodoFormComponent, TodoItemComponent]
 })
 export class TodoContainerComponent {
   private todoService = inject(TodoDataService);

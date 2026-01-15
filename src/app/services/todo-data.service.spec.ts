@@ -262,13 +262,65 @@ describe('TodoDataService', () => {
       expect(todos).toEqual([]);
     });
 
+    it('should handle non-array localStorage data gracefully', () => {
+      localStorage.setItem('todo-app-items', '{"not": "an array"}');
+      const newService = new TodoDataService();
+      const todos = newService.getTodos()();
+      expect(todos).toEqual([]);
+    });
+
     it('should handle localStorage disabled', () => {
-      // Mock localStorage disabled
+      // Mock localStorage disabled (SecurityError)
       const originalSetItem = localStorage.setItem;
-      localStorage.setItem = () => { throw new Error('localStorage disabled'); };
+      const securityError = new Error('localStorage disabled');
+      (securityError as any).name = 'SecurityError';
+      (securityError as any).code = 18;
+      localStorage.setItem = () => { throw securityError; };
 
       // Should not crash, just log warning
       expect(() => service.addTodo('Test')).not.toThrow();
+
+      // Verify data is still in memory
+      const todos = service.getTodos()();
+      expect(todos.length).toBe(1);
+      expect(todos[0].description).toBe('Test');
+
+      // Restore localStorage
+      localStorage.setItem = originalSetItem;
+    });
+
+    it('should handle localStorage quota exceeded', () => {
+      // Mock localStorage quota exceeded
+      const originalSetItem = localStorage.setItem;
+      const quotaError = new Error('QuotaExceededError');
+      (quotaError as any).name = 'QuotaExceededError';
+      (quotaError as any).code = 22;
+      localStorage.setItem = () => { throw quotaError; };
+
+      // Should not crash, just log error
+      expect(() => service.addTodo('Test quota')).not.toThrow();
+
+      // Verify data is still in memory
+      const todos = service.getTodos()();
+      expect(todos.length).toBeGreaterThan(0);
+
+      // Restore localStorage
+      localStorage.setItem = originalSetItem;
+    });
+
+    it('should handle other localStorage errors', () => {
+      // Mock other localStorage error
+      const originalSetItem = localStorage.setItem;
+      const otherError = new Error('Other error');
+      (otherError as any).name = 'OtherError';
+      localStorage.setItem = () => { throw otherError; };
+
+      // Should not crash, just log warning
+      expect(() => service.addTodo('Test other')).not.toThrow();
+
+      // Verify data is still in memory
+      const todos = service.getTodos()();
+      expect(todos.length).toBeGreaterThan(0);
 
       // Restore localStorage
       localStorage.setItem = originalSetItem;

@@ -66,13 +66,13 @@
 - [x] T013 [P] [US1] Create TodoItemComponent directory structure at `src/app/components/todo-item/`
 - [x] T014 [P] [US1] Create TodoContainerComponent directory structure at `src/app/components/todo-container/`
 - [x] T015 [US1] Implement TodoFormComponent in `src/app/components/todo-form/todo-form.component.ts` with description, priority (1-5), and due date inputs (depends on T011, T007)
-- [x] T016 [US1] Create TodoFormComponent template in `src/app/components/todo-form/todo-form.component.html` with Tailwind CSS styling (depends on T015)
+- [x] T016 [US1] Implement TodoFormComponent inline template in `src/app/components/todo-form/todo-form.component.ts` with Tailwind CSS styling (depends on T015)
 - [x] T017 [US1] Implement TodoItemComponent in `src/app/components/todo-item/todo-item.component.ts` to display single todo item (depends on T013, T009)
-- [x] T018 [US1] Create TodoItemComponent template in `src/app/components/todo-item/todo-item.component.html` with Tailwind CSS styling showing description, priority, and due date (depends on T017)
+- [x] T018 [US1] Implement TodoItemComponent inline template in `src/app/components/todo-item/todo-item.component.ts` with Tailwind CSS styling showing description, priority, and due date (depends on T017)
 - [x] T019 [US1] Implement TodoListComponent in `src/app/components/todo-list/todo-list.component.ts` to display list of todos (depends on T012, T008, T017)
-- [x] T020 [US1] Create TodoListComponent template in `src/app/components/todo-list/todo-list.component.html` with Tailwind CSS styling (depends on T019)
+- [x] T020 [US1] Implement TodoListComponent inline template in `src/app/components/todo-list/todo-list.component.ts` with Tailwind CSS styling (depends on T019)
 - [x] T021 [US1] Implement TodoContainerComponent in `src/app/components/todo-container/todo-container.component.ts` integrating TodoDataService, TodoFormComponent, and TodoListComponent (depends on T014, T010, T015, T019, T006)
-- [x] T022 [US1] Create TodoContainerComponent template in `src/app/components/todo-container/todo-container.component.html` with Tailwind CSS styling (depends on T021)
+- [x] T022 [US1] Implement TodoContainerComponent inline template in `src/app/components/todo-container/todo-container.component.ts` with Tailwind CSS styling (depends on T021)
 - [x] T023 [US1] Update app.ts to include TodoContainerComponent in main application (depends on T021)
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently - users can add and view todo items
@@ -95,9 +95,9 @@
 ### Implementation for User Story 2
 
 - [x] T026 [US2] Add edit mode to TodoItemComponent in `src/app/components/todo-item/todo-item.component.ts` (depends on T017, T024)
-- [x] T027 [US2] Update TodoItemComponent template in `src/app/components/todo-item/todo-item.component.html` to support inline editing with Tailwind CSS styling (depends on T026)
+- [x] T027 [US2] Update TodoItemComponent inline template in `src/app/components/todo-item/todo-item.component.ts` to support inline editing with Tailwind CSS styling (depends on T026)
 - [x] T028 [US2] Add updateTodo method handling to TodoContainerComponent in `src/app/components/todo-container/todo-container.component.ts` (depends on T021, T025)
-- [x] T029 [US2] Update TodoContainerComponent template in `src/app/components/todo-container/todo-container.component.html` to wire up edit events (depends on T028)
+- [x] T029 [US2] Update TodoContainerComponent inline template in `src/app/components/todo-container/todo-container.component.ts` to wire up edit events (depends on T028)
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently - users can add, view, and update todo items
 
@@ -119,9 +119,9 @@
 ### Implementation for User Story 3
 
 - [x] T032 [US3] Add delete button and confirmation to TodoItemComponent in `src/app/components/todo-item/todo-item.component.ts` (depends on T017, T030)
-- [x] T033 [US3] Update TodoItemComponent template in `src/app/components/todo-item/todo-item.component.html` to include delete button with Tailwind CSS styling (depends on T032)
+- [x] T033 [US3] Update TodoItemComponent inline template in `src/app/components/todo-item/todo-item.component.ts` to include delete button with Tailwind CSS styling (depends on T032)
 - [x] T034 [US3] Add removeTodo method handling to TodoContainerComponent in `src/app/components/todo-container/todo-container.component.ts` (depends on T021, T031)
-- [x] T035 [US3] Update TodoContainerComponent template in `src/app/components/todo-container/todo-container.component.html` to wire up delete events (depends on T034)
+- [x] T035 [US3] Update TodoContainerComponent inline template in `src/app/components/todo-container/todo-container.component.ts` to wire up delete events (depends on T034)
 
 **Checkpoint**: At this point, User Stories 1, 2, AND 3 should all work independently - users can add, view, update, and remove todo items
 
@@ -137,15 +137,15 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T036 [P] [US4] Write tests for getPastDueTodos computed signal in `src/app/services/todo-data.service.spec.ts` (extend existing tests)
-- [ ] T037 [P] [US4] Write tests for past-due visual indication in `src/app/components/todo-item/todo-item.component.spec.ts` (extend existing tests)
+- [x] T036 [P] [US4] Write tests for getPastDueTodos computed signal in `src/app/services/todo-data.service.spec.ts` (extend existing tests)
+- [x] T037 [P] [US4] Write tests for past-due visual indication in `src/app/components/todo-item/todo-item.component.spec.ts` (extend existing tests)
 
 ### Implementation for User Story 4
 
-- [ ] T038 [US4] Implement getPastDueTodos computed signal in TodoDataService in `src/app/services/todo-data.service.ts` (depends on T006, T036)
-- [ ] T039 [US4] Add isPastDue computed property to TodoItemComponent in `src/app/components/todo-item/todo-item.component.ts` (depends on T017, T037)
-- [ ] T040 [US4] Update TodoItemComponent template in `src/app/components/todo-item/todo-item.component.html` to apply Tailwind CSS classes for past-due visual indication (e.g., text-red-600, border-red-600) (depends on T039)
-- [ ] T041 [US4] Verify past-due styling appears in TodoItemComponent tests (depends on T040)
+- [x] T038 [US4] Implement getPastDueTodos computed signal in TodoDataService in `src/app/services/todo-data.service.ts` (depends on T006, T036)
+- [x] T039 [US4] Add isPastDue computed property to TodoItemComponent in `src/app/components/todo-item/todo-item.component.ts` (depends on T017, T037)
+- [x] T040 [US4] Update TodoItemComponent inline template in `src/app/components/todo-item/todo-item.component.ts` to apply Tailwind CSS classes for past-due visual indication (e.g., text-red-600, border-red-600) (depends on T039)
+- [x] T041 [US4] Verify past-due styling appears in TodoItemComponent tests (depends on T040)
 
 **Checkpoint**: All user stories should now be independently functional - users can add, view, update, remove, and see past-due indicators
 
@@ -155,15 +155,15 @@
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T042 [P] Add error handling for localStorage quota exceeded in `src/app/services/todo-data.service.ts`
-- [ ] T043 [P] Add error handling for localStorage disabled in `src/app/services/todo-data.service.ts`
-- [ ] T044 [P] Add validation error messages to TodoFormComponent in `src/app/components/todo-form/todo-form.component.html`
-- [ ] T045 [P] Verify all Tailwind CSS classes are present in component tests
-- [ ] T046 Add sorting by priority (desc) then creation time (asc) using getSortedTodos in TodoContainerComponent in `src/app/components/todo-container/todo-container.component.ts`
-- [ ] T047 Update TodoContainerComponent to use getSortedTodos instead of getTodos in `src/app/components/todo-container/todo-container.component.ts`
-- [ ] T048 Run quickstart.md validation and verify all examples work
-- [ ] T049 Code cleanup and refactoring across all components
-- [ ] T050 Performance optimization - ensure page load <1s (SC-002)
+- [x] T042 [P] Add error handling for localStorage quota exceeded in `src/app/services/todo-data.service.ts`
+- [x] T043 [P] Add error handling for localStorage disabled in `src/app/services/todo-data.service.ts`
+- [x] T044 [P] Add validation error messages to TodoFormComponent inline template in `src/app/components/todo-form/todo-form.component.ts`
+- [x] T045 [P] Verify all Tailwind CSS classes are present in component tests
+- [x] T046 Add sorting by priority (desc) then creation time (asc) using getSortedTodos in TodoContainerComponent in `src/app/components/todo-container/todo-container.component.ts`
+- [x] T047 Update TodoContainerComponent to use getSortedTodos instead of getTodos in `src/app/components/todo-container/todo-container.component.ts`
+- [x] T048 Run quickstart.md validation and verify all examples work
+- [x] T049 Code cleanup and refactoring across all components
+- [x] T050 Performance optimization - ensure page load <1s (SC-002)
 
 ---
 
